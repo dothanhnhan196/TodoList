@@ -5,16 +5,16 @@ const TaskData = [
   {
     id: randomID(5),
     name: "Soạn ReactJS",
-    labelArr: ["Frontend", "Backend"],
+    labelArr: ["Frontend", "API", "Issue"],
     priority: 1,
     memberIDArr: ["user_1", "user_3"],
     status: 1,
-    description: "Phải soạn ReactJS",
+    description: "Phải soạn ReactJS và Redux",
   },
   {
     id: randomID(5),
     name: "Soạn NodeJS",
-    labelArr: ["Backend"],
+    labelArr: ["Backend", "Issue"],
     priority: 2,
     memberIDArr: ["user_2", "user_4"],
     status: 2,
@@ -31,12 +31,12 @@ const TaskData = [
   },
   {
     id: randomID(5),
-    name: "Soạn ReactJS",
-    labelArr: ["Frontend"],
+    name: "Soạn Angular",
+    labelArr: ["Frontend", "API"],
     priority: 1,
     memberIDArr: ["user_1", "user_3", "user_4"],
-    status: 2,
-    description: "Phải soạn ReactJS và Redux",
+    status: 4,
+    description: "Phải soạn Angular và Redux",
   },
 ];
 

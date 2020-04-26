@@ -3,6 +3,13 @@ import Thead from "./TaskItems/Thead";
 import Item from "./TaskItems/Item";
 
 export default class TaskItems extends Component {
+  renderTaskItem = () => {
+    let { task } = this.props;
+    return task.map((item, index) => {
+      return <Item key={index} item={item} index={index} />;
+    });
+  };
+
   render() {
     return (
       <div className="col-md-9 px-0">
@@ -29,9 +36,7 @@ export default class TaskItems extends Component {
             <thead>
               <Thead />
             </thead>
-            <tbody>
-              <Item />
-            </tbody>
+            <tbody>{this.renderTaskItem()}</tbody>
           </table>
         </div>
       </div>

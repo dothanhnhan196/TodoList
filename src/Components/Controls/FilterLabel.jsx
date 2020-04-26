@@ -4,7 +4,7 @@ export default class FilterLabel extends Component {
   render() {
     return (
       <div className="filter filter--label">
-        <ul className="list-unstyled text-left">
+        <ul className="list-unstyled text-left font-weight-bold">
           Nhãn
           <li className="py-1 display-5 lead">
             <i className="fa fa-circle mr-2" />
