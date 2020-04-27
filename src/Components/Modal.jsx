@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Checkbox, CheckboxGroup } from "react-checkbox-group";
-import randomid from "randomid";
 
 export default class Modal extends Component {
   constructor(props) {
@@ -19,15 +18,14 @@ export default class Modal extends Component {
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
-      id: randomid(5)
     });
-    
   };
 
   onSubmit = (e) => {
-    let { addNewTask } = this.props;
+    let { addNewTask, onEditTask } = this.props;
     e.preventDefault();
     addNewTask(this.state);
+    onEditTask(this.state);
   };
 
   memberChange = (newMember) => {
@@ -42,13 +40,41 @@ export default class Modal extends Component {
     });
   };
 
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps && nextProps.isAddNewTask) {
+      this.clearForm();
+    }
+    if (nextProps && nextProps.taskEditing && !nextProps.isAddNewTask) {
+      this.setState({
+        id: nextProps.taskEditing.id,
+        name: nextProps.taskEditing.name,
+        description: nextProps.taskEditing.description,
+        priority: nextProps.taskEditing.priority,
+        memberIDArr: nextProps.taskEditing.memberIDArr,
+        labelArr: nextProps.taskEditing.labelArr,
+      });
+    }
+  };
+
+  clearForm = () => {
+    this.setState({
+      id: "",
+      name: "",
+      description: "",
+      priority: "",
+      memberIDArr: "",
+      labelArr: "",
+    });
+  };
   render() {
     return (
       <div className="modal fade" id="modalTask">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h4 className="modal-title">Thêm công việc</h4>
+              <h4 className="modal-title">
+                {this.props.isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
+              </h4>
               <button type="button" className="close" data-dismiss="modal">
                 ×
               </button>
@@ -62,6 +88,7 @@ export default class Modal extends Component {
                     className="form-control"
                     name="name"
                     onChange={this.onChange}
+                    value={this.state.name}
                   />
                 </div>
                 <div className="form-group">
@@ -71,6 +98,7 @@ export default class Modal extends Component {
                     rows={2}
                     name="description"
                     onChange={this.onChange}
+                    value={this.state.description}
                   />
                 </div>
                 <div className="form-group">
@@ -79,6 +107,7 @@ export default class Modal extends Component {
                     className="form-control"
                     name="priority"
                     onChange={this.onChange}
+                    value={this.state.priority}
                   >
                     <option value={-1}>Chọn độ ưu tiên</option>
                     <option value={3}>Thấp</option>
@@ -134,7 +163,7 @@ export default class Modal extends Component {
 
               <div className="modal-footer">
                 <button type="submit" className="btn btn-success">
-                  Thêm task
+                  {this.props.isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
                 </button>
 
                 <button

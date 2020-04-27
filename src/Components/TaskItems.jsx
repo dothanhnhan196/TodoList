@@ -4,9 +4,18 @@ import Item from "./TaskItems/Item";
 
 export default class TaskItems extends Component {
   renderTaskItem = () => {
-    let { task } = this.props;
+    let { task, editTask, isAddNewTask, taskEditing } = this.props;
     return task.map((item, index) => {
-      return <Item key={index} item={item} index={index} />;
+      return (
+        <Item
+          key={index}
+          item={item}
+          index={index}
+          editTask={editTask}
+          isAddNewTask={isAddNewTask}
+          taskEditing={taskEditing}
+        />
+      );
     });
   };
 

@@ -30,6 +30,25 @@ export default class Item extends Component {
     });
   };
 
+  renderMember = () => {
+    let { item } = this.props;
+    return item.memberIDArr.map((member, index) => {
+      return (
+        <img
+          src={`./img/${member}.png`}
+          className="user"
+          alt="imgUser"
+          key={index}
+        />
+      );
+    });
+  };
+
+  handleEditing = () => {
+    let { editTask, item } = this.props;
+    editTask(item);
+  };
+
   render() {
     let { index, item } = this.props;
 
@@ -65,22 +84,24 @@ export default class Item extends Component {
           {elmPriority}
         </td>
         <td className="text-center">
-          <img src="./img/user_2.png" className="user" alt="imgUser" />
-          <img src="./img/user_3.png" className="user" alt="imgUser" />
+          {this.renderMember()}
         </td>
         <td className="text-center">
           <div className="form-row">
             <div className="col-2">
-              <button type="button" className="btn btn-outline-primary">
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                data-toggle="modal"
+                data-target="#modalTask"
+                onClick={this.handleEditing}
+              >
                 Sửa
               </button>
             </div>
             <div className="col-10">
               <div className="form-group">
-                <select
-                  className="form-control"
-                  id="exampleFormControlSelect1"
-                >
+                <select className="form-control" id="exampleFormControlSelect1">
                   <option>Đang tiến hành</option>
                   <option>Chưa bắt đầu</option>
                   <option>Hoàn thành</option>
