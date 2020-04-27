@@ -8,6 +8,7 @@ import Sort from "./Controls/Sort";
 
 export default class Controls extends Component {
   render() {
+    let { gennerateData } = this.props;
     return (
       <div className="col-md-3 text-center px-0">
         <div className="header header--left d-flex align-items-center">
@@ -17,7 +18,7 @@ export default class Controls extends Component {
           </h3>
         </div>
         <AddNewTask />
-        <InitializeTask />
+        <InitializeTask gennerateData={gennerateData} />
         <div className="px-3">
           <FilterProgress />
           <FilterLabel />

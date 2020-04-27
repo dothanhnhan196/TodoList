@@ -1,6 +1,47 @@
 import React, { Component } from "react";
+import { Checkbox, CheckboxGroup } from "react-checkbox-group";
+import randomid from "randomid";
 
 export default class Modal extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      id: "",
+      name: "",
+      description: "",
+      priority: "",
+      memberIDArr: "",
+      labelArr: "",
+    };
+  }
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+      id: randomid(5)
+    });
+    
+  };
+
+  onSubmit = (e) => {
+    let { addNewTask } = this.props;
+    e.preventDefault();
+    addNewTask(this.state);
+  };
+
+  memberChange = (newMember) => {
+    this.setState({
+      memberIDArr: newMember,
+    });
+  };
+
+  labelChange = (newLabel) => {
+    this.setState({
+      labelArr: newLabel,
+    });
+  };
+
   render() {
     return (
       <div className="modal fade" id="modalTask">
@@ -12,126 +53,99 @@ export default class Modal extends Component {
                 ×
               </button>
             </div>
+            <form onSubmit={this.onSubmit}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Tên công việc:</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="name"
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Mô tả:</label>
+                  <textarea
+                    className="form-control"
+                    rows={2}
+                    name="description"
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Độ ưu tiên:</label>
+                  <select
+                    className="form-control"
+                    name="priority"
+                    onChange={this.onChange}
+                  >
+                    <option value={-1}>Chọn độ ưu tiên</option>
+                    <option value={3}>Thấp</option>
+                    <option value={2}>Trung bình</option>
+                    <option value={1}>Cao</option>
+                  </select>
+                </div>
+                <br />
+                <CheckboxGroup
+                  checkboxDepth={2} // This is needed to optimize the checkbox group
+                  name="memberIDArr"
+                  value={this.state.memberIDArr}
+                  onChange={this.memberChange}
+                >
+                  Người thực hiện:
+                  <br />
+                  <label className="mr-3">
+                    <Checkbox value="user_2" /> Vy
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="user_3" /> Trường
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="user_4" /> Trọng
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="user_5" /> Nhựt
+                  </label>
+                </CheckboxGroup>
+                <br />
+                <CheckboxGroup
+                  checkboxDepth={2} // This is needed to optimize the checkbox group
+                  name="labelArr"
+                  value={this.state.labelArr}
+                  onChange={this.labelChange}
+                >
+                  Nhãn:
+                  <br />
+                  <label className="mr-3">
+                    <Checkbox value="Frontend" /> Frontend
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="Backend" /> Backend
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="API" /> API
+                  </label>
+                  <label className="mr-3">
+                    <Checkbox value="Issue" /> Issue
+                  </label>
+                </CheckboxGroup>
+              </div>
 
-            <div className="modal-body">
-              <div className="form-group">
-                <label>Tên công việc:</label>
-                <input type="text" className="form-control" id="taskName" />
-              </div>
-              <div className="form-group">
-                <label>Mô tả:</label>
-                <textarea
-                  className="form-control"
-                  rows={2}
-                  id="description"
-                  defaultValue={""}
-                />
-              </div>
-              <div className="form-group">
-                <label>Độ ưu tiên:</label>
-                <select className="form-control" id="priority">
-                  <option>Thấp</option>
-                  <option>Trung bình</option>
-                  <option>Cao</option>
-                </select>
-              </div>
-              <label>Người thực hiện:</label>
-              <br />
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Nghĩa Văn
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Minh Tuấn
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Trung Hiếu
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Tấn Khải
-                </label>
-              </div>
-              <br />
-              <br />
-              <label>Nhãn:</label>
-              <br />
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Frontend
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Backend
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  API
-                </label>
-              </div>
-              <div className="form-check-inline">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue
-                  />
-                  Issue
-                </label>
-              </div>
-            </div>
+              <div className="modal-footer">
+                <button type="submit" className="btn btn-success">
+                  Thêm task
+                </button>
 
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-danger"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Đóng
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
