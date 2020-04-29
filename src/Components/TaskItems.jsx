@@ -3,9 +3,38 @@ import Thead from "./TaskItems/Thead";
 import Item from "./TaskItems/Item";
 
 export default class TaskItems extends Component {
-  renderTaskItem = () => {
-    let { task, editTask, isAddNewTask, taskEditing } = this.props;
-    return task.map((item, index) => {
+  renderTaskItem = () => {};
+
+  render() {
+    let {
+      editTask,
+      isAddNewTask,
+      taskEditing,
+      changeProgress,
+      task,
+      fillterType,
+      fillterProgress,
+    } = this.props;
+
+    let fillterTask = [];
+    switch (fillterType) {
+      case "fillterProgress":
+        if (fillterProgress === -1) {
+          fillterTask = task;
+        } else {
+          for (let elmtask of task) {
+            if (parseInt(elmtask.status, 10) === fillterProgress) {
+              fillterTask = [...fillterTask, elmtask];
+            }
+          }
+        }
+        break;
+      default:
+        fillterTask = task;
+        break;
+    }
+
+    let elmItem = fillterTask.map((item, index) => {
       return (
         <Item
           key={index}
@@ -14,12 +43,11 @@ export default class TaskItems extends Component {
           editTask={editTask}
           isAddNewTask={isAddNewTask}
           taskEditing={taskEditing}
+          changeProgress={changeProgress}
         />
       );
     });
-  };
 
-  render() {
     return (
       <div className="col-md-9 px-0">
         <div className="container-fluid px-0">
@@ -45,7 +73,7 @@ export default class TaskItems extends Component {
             <thead>
               <Thead />
             </thead>
-            <tbody>{this.renderTaskItem()}</tbody>
+            <tbody>{elmItem}</tbody>
           </table>
         </div>
       </div>

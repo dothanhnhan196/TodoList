@@ -8,7 +8,12 @@ import Sort from "./Controls/Sort";
 
 export default class Controls extends Component {
   render() {
-    let { gennerateData, clearBeforeAddNewTask } = this.props;
+    let {
+      gennerateData,
+      clearBeforeAddNewTask,
+      changeFillterProgress,
+    } = this.props;
+
     return (
       <div className="col-md-3 text-center px-0">
         <div className="header header--left d-flex align-items-center">
@@ -20,8 +25,8 @@ export default class Controls extends Component {
         <AddNewTask clearBeforeAddNewTask={clearBeforeAddNewTask} />
         <InitializeTask gennerateData={gennerateData} />
         <div className="px-3">
-          <FilterProgress />
-          <FilterLabel />
+          <FilterProgress changeFillterProgress={changeFillterProgress} />
+          <FilterLabel/>
           <FilterPriority />
           <Sort />
         </div>

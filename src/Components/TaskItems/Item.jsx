@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
 export default class Item extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedProgress: "",
+    };
+  }
+
   getLabelColor = (label) => {
     let labelColor;
     switch (label) {
@@ -49,6 +57,19 @@ export default class Item extends Component {
     editTask(item);
   };
 
+  onChange = (e) => {
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      },
+      () => {
+        let { selectedProgress } = this.state;
+        let { changeProgress, item } = this.props;
+        changeProgress(selectedProgress, item.id);
+      }
+    );
+  };
+
   render() {
     let { index, item } = this.props;
 
@@ -75,6 +96,26 @@ export default class Item extends Component {
         break;
     }
 
+    // Progress
+    let elmClassProgress;
+    switch (parseInt(item.status)) {
+      case 1:
+        elmClassProgress = "fa fa-spinner";
+        break;
+      case 2:
+        elmClassProgress = "fa fa-stop";
+        break;
+      case 3:
+        elmClassProgress = "fa fa-check-square-o";
+        break;
+      case 4:
+        elmClassProgress = "fa fa-trash-o";
+        break;
+      default:
+        elmClassProgress = "fa fa-stop";
+        break;
+    }
+
     return (
       <tr>
         <td className="text-center">{index + 1}</td>
@@ -83,9 +124,7 @@ export default class Item extends Component {
         <td className={`${classPriority} font-weight-bold text-center`}>
           {elmPriority}
         </td>
-        <td className="text-center">
-          {this.renderMember()}
-        </td>
+        <td className="text-center">{this.renderMember()}</td>
         <td className="text-center">
           <div className="form-row">
             <div className="col-2">
@@ -97,22 +136,36 @@ export default class Item extends Component {
                 onClick={this.handleEditing}
               >
                 Sửa
-              </button>
+              </button>             
             </div>
-            <div className="col-10">
+            <div className="col-2">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+              >
+                Xóa
+              </button>              
+            </div>
+
+            <div className="col-8">
               <div className="form-group">
-                <select className="form-control" id="exampleFormControlSelect1">
-                  <option>Đang tiến hành</option>
-                  <option>Chưa bắt đầu</option>
-                  <option>Hoàn thành</option>
-                  <option>Hủy bỏ</option>
+                <select
+                  className="form-control"
+                  id="exampleFormControlSelect1"
+                  onChange={this.onChange}
+                  name="selectedProgress"
+                >
+                  <option value={1}>Đang tiến hành</option>
+                  <option value={2}>Chưa bắt đầu</option>
+                  <option value={3}>Hoàn thành</option>
+                  <option value={4}>Hủy bỏ</option>
                 </select>
               </div>
             </div>
           </div>
         </td>
         <td className="text-center">
-          <i className="fa fa-check-square-o mr-2" />
+          <i className={`${elmClassProgress} mr-2`} />
         </td>
       </tr>
     );
