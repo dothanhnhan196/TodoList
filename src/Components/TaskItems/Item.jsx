@@ -57,6 +57,11 @@ export default class Item extends Component {
     editTask(item);
   };
 
+  handleDelete = () => {
+    let { deleteTask, item } = this.props;
+    deleteTask(item.id);
+  };
+
   onChange = (e) => {
     this.setState(
       {
@@ -127,7 +132,7 @@ export default class Item extends Component {
         <td className="text-center">{this.renderMember()}</td>
         <td className="text-center">
           <div className="form-row">
-            <div className="col-3">
+            <div className="col-2">
               <button
                 type="button"
                 className="btn btn-outline-primary"
@@ -136,9 +141,18 @@ export default class Item extends Component {
                 onClick={this.handleEditing}
               >
                 Sửa
-              </button>             
+              </button>
             </div>
 
+            <div className="col-2">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={this.handleDelete}
+              >
+                Xóa
+              </button>
+            </div>
 
             <div className="col-8">
               <div className="form-group">

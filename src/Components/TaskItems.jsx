@@ -18,6 +18,7 @@ export default class TaskItems extends Component {
       changeFillerSearch,
       fillterSearch,
       sortType,
+      deleteTask,
     } = this.props;
 
     let fillterTask = [];
@@ -80,6 +81,7 @@ export default class TaskItems extends Component {
           isAddNewTask={isAddNewTask}
           taskEditing={taskEditing}
           changeProgress={changeProgress}
+          deleteTask={deleteTask}
         />
       );
     });

@@ -85,6 +85,15 @@ export default class Layout extends Component {
     }
   };
 
+  deleteTask = (id) => {
+    let { task } = this.state;
+    var taskupdate = task.filter((user) => user.id !== id);
+
+    this.setState({
+      task: taskupdate,
+    });
+  };
+
   changeProgress = (progress, id) => {
     let taskJson = this.emlLocalGetItem();
     for (let index in taskJson) {
@@ -118,6 +127,7 @@ export default class Layout extends Component {
       sortType,
     });
   };
+
   // ------------------------------------------------------------------------------------------
 
   render() {
@@ -153,6 +163,7 @@ export default class Layout extends Component {
               changeFillerSearch={this.changeFillerSearch}
               fillterSearch={fillterSearch}
               sortType={sortType}
+              deleteTask={this.deleteTask}
             />
           </div>
         </div>
