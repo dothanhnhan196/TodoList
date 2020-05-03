@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Checkbox, CheckboxGroup } from "react-checkbox-group";
+import { connect } from "react-redux";
 
-export default class Modal extends Component {
+class Modal extends Component {
   constructor(props) {
     super(props);
 
@@ -181,3 +182,19 @@ export default class Modal extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewTask: (newTask) => {
+      const action = {
+        type: "ADD_TASKS",
+        newTask,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

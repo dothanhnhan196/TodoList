@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import Thead from "./TaskItems/Thead";
 import Item from "./TaskItems/Item";
 import Search from "./TaskItems/Search";
+import { connect } from "react-redux";
 
-export default class TaskItems extends Component {
-  renderTaskItem = () => {};
-
+class TaskItems extends Component {
   render() {
     let {
       editTask,
@@ -112,3 +111,9 @@ export default class TaskItems extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  task: state.TaskReducer,
+});
+
+export default connect(mapStateToProps, null)(TaskItems);
