@@ -17,6 +17,10 @@ export default class Layout extends Component {
       // fillter
       fillterType: "",
       fillterProgress: -1,
+      fillterSearch: "",
+
+      // Sort
+      sortType: "",
     };
   }
 
@@ -101,7 +105,19 @@ export default class Layout extends Component {
     });
   };
 
+  changeFillerSearch = (fillterSearch) => {
+    this.setState({
+      fillterType: "fillterSearch",
+      fillterSearch,
+    });
+  };
 
+  changeSortType = (sortType) => {
+    this.setState({
+      fillterType: "sort",
+      sortType,
+    });
+  };
   // ------------------------------------------------------------------------------------------
 
   render() {
@@ -111,8 +127,8 @@ export default class Layout extends Component {
       taskEditing,
       fillterType,
       fillterProgress,
-      fillterLabel,
-      fillterPriority,
+      fillterSearch,
+      sortType,
     } = this.state;
     return (
       <div>
@@ -124,6 +140,7 @@ export default class Layout extends Component {
               gennerateData={this.gennerateData}
               clearBeforeAddNewTask={this.clearBeforeAddNewTask}
               changeFillterProgress={this.changeFillterProgress}
+              changeSortType={this.changeSortType}
             />
 
             {/* DISPLAY */}
@@ -133,6 +150,9 @@ export default class Layout extends Component {
               changeProgress={this.changeProgress}
               fillterType={fillterType}
               fillterProgress={fillterProgress}
+              changeFillerSearch={this.changeFillerSearch}
+              fillterSearch={fillterSearch}
+              sortType={sortType}
             />
           </div>
         </div>

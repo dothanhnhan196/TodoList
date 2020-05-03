@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Thead from "./TaskItems/Thead";
 import Item from "./TaskItems/Item";
+import Search from "./TaskItems/Search";
 
 export default class TaskItems extends Component {
   renderTaskItem = () => {};
@@ -14,6 +15,9 @@ export default class TaskItems extends Component {
       task,
       fillterType,
       fillterProgress,
+      changeFillerSearch,
+      fillterSearch,
+      sortType,
     } = this.props;
 
     let fillterTask = [];
@@ -29,6 +33,38 @@ export default class TaskItems extends Component {
           }
         }
         break;
+      case "fillterSearch":
+        fillterTask = task.filter((task) => {
+          return (
+            task.name.toLowerCase().indexOf(fillterSearch.toLowerCase()) !== -1
+          );
+        });
+        break;
+
+      case "sort":
+        fillterTask = task;
+        if (sortType === "asc") {
+          fillterTask.sort((a, b) => {
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) return -1;
+            if (x > y) return 1;
+            return 0;
+          });
+        }
+
+        if (sortType === "desc") {
+          fillterTask.sort((a, b) => {
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x > y) return -1;
+            if (x < y) return 1;
+            return 0;
+          });
+        }
+
+        break;
+
       default:
         fillterTask = task;
         break;
@@ -58,13 +94,7 @@ export default class TaskItems extends Component {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-group text-left my-0">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Tìm kiếm công việc"
-                />
-              </div>
+              <Search changeFillerSearch={changeFillerSearch} />
             </div>
           </div>
         </div>

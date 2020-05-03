@@ -12,6 +12,7 @@ export default class Controls extends Component {
       gennerateData,
       clearBeforeAddNewTask,
       changeFillterProgress,
+      changeSortType,
     } = this.props;
 
     return (
@@ -26,9 +27,9 @@ export default class Controls extends Component {
         <InitializeTask gennerateData={gennerateData} />
         <div className="px-3">
           <FilterProgress changeFillterProgress={changeFillterProgress} />
-          <FilterLabel/>
+          <FilterLabel />
           <FilterPriority />
-          <Sort />
+          <Sort changeSortType={changeSortType} />
         </div>
       </div>
     );

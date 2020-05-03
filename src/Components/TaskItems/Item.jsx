@@ -127,7 +127,7 @@ export default class Item extends Component {
         <td className="text-center">{this.renderMember()}</td>
         <td className="text-center">
           <div className="form-row">
-            <div className="col-2">
+            <div className="col-3">
               <button
                 type="button"
                 className="btn btn-outline-primary"
@@ -138,14 +138,7 @@ export default class Item extends Component {
                 Sửa
               </button>             
             </div>
-            <div className="col-2">
-              <button
-                type="button"
-                className="btn btn-outline-danger"
-              >
-                Xóa
-              </button>              
-            </div>
+
 
             <div className="col-8">
               <div className="form-group">
