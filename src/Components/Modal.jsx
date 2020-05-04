@@ -13,6 +13,7 @@ class Modal extends Component {
       priority: "",
       memberIDArr: "",
       labelArr: "",
+      status: "",
     };
   }
 
@@ -41,32 +42,42 @@ class Modal extends Component {
     });
   };
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps && nextProps.isAddNewTask) {
-      this.clearForm();
-    }
-    if (nextProps && nextProps.taskEditing && !nextProps.isAddNewTask) {
-      this.setState({
-        id: nextProps.taskEditing.id,
-        name: nextProps.taskEditing.name,
-        description: nextProps.taskEditing.description,
-        priority: nextProps.taskEditing.priority,
-        memberIDArr: nextProps.taskEditing.memberIDArr,
-        labelArr: nextProps.taskEditing.labelArr,
-      });
-    }
-  };
-
   clearForm = () => {
     this.setState({
       id: "",
       name: "",
       description: "",
-      priority: "",
+      priority: 1,
       memberIDArr: "",
       labelArr: "",
+      status: 1,
     });
   };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps && nextProps.taskEditing) {
+      let {
+        id,
+        name,
+        description,
+        priority,
+        memberIDArr,
+        labelArr,
+        status,
+      } = nextProps.taskEditing;
+
+      this.setState({
+        id,
+        name,
+        description,
+        priority,
+        memberIDArr,
+        labelArr,
+        status,
+      });
+    }
+  };
+
   render() {
     return (
       <div className="modal fade" id="modalTask">
@@ -183,7 +194,9 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  taskEditing: state.TaskEditingReducer,
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class Item extends Component {
+class Item extends Component {
   constructor(props) {
     super(props);
 
@@ -52,16 +53,6 @@ export default class Item extends Component {
     });
   };
 
-  handleEditing = () => {
-    let { editTask, item } = this.props;
-    editTask(item);
-  };
-
-  handleDelete = () => {
-    let { deleteTask, item } = this.props;
-    deleteTask(item.id);
-  };
-
   onChange = (e) => {
     this.setState(
       {
@@ -76,7 +67,7 @@ export default class Item extends Component {
   };
 
   render() {
-    let { index, item } = this.props;
+    let { index, item, editTask } = this.props;
 
     // Priority
     let elmPriority;
@@ -138,18 +129,14 @@ export default class Item extends Component {
                 className="btn btn-outline-primary"
                 data-toggle="modal"
                 data-target="#modalTask"
-                onClick={this.handleEditing}
+                onClick={() => editTask(item)}
               >
                 Sửa
               </button>
             </div>
 
             <div className="col-2">
-              <button
-                type="button"
-                className="btn btn-outline-danger"
-                onClick={this.handleDelete}
-              >
+              <button type="button" className="btn btn-outline-danger">
                 Xóa
               </button>
             </div>
@@ -178,3 +165,17 @@ export default class Item extends Component {
     );
   }
 }
+
+const mapDisPatchToProps = (dispatch) => {
+  return {
+    editTask: (taskEditing) => {
+      const action = {
+        type: "EDIT_TASK",
+        taskEditing,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+export default connect(null, mapDisPatchToProps)(Item);

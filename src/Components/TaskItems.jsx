@@ -81,6 +81,7 @@ class TaskItems extends Component {
           taskEditing={taskEditing}
           changeProgress={changeProgress}
           deleteTask={deleteTask}
+          task={task}
         />
       );
     });
