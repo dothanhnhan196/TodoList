@@ -1,4 +1,4 @@
-const taskEditingState = {
+let taskEditingState = {
   id: "",
   name: "",
   description: "",
@@ -11,8 +11,19 @@ const taskEditingState = {
 export const TaskEditingReducer = (state = taskEditingState, action) => {
   switch (action.type) {
     case "EDIT_TASK": {
-      console.log(action);
-      state = action.taskEditing;
+      state = action.item;
+      return state;
+    }
+    case "CLEAR_FORM": {
+      state = {
+        id: "",
+        name: "",
+        description: "",
+        priority: "",
+        memberIDArr: "",
+        labelArr: "",
+        status: "",
+      };
       return state;
     }
 

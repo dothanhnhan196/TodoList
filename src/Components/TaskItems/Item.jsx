@@ -6,23 +6,22 @@ class Item extends Component {
     super(props);
 
     this.state = {
-      selectedProgress: "",
+      selectedStatus: "",
     };
   }
 
   getLabelColor = (label) => {
-    let labelColor;
     switch (label) {
       case "Frontend":
-        return (labelColor = "#328b03");
+        return "#722ed1";
       case "Backend":
-        return (labelColor = "#673fff");
+        return "#13c2c2";
       case "API":
-        return (labelColor = "#06b2c1");
+        return "#cf1322";
       case "Issue":
-        return (labelColor = "#d62525");
+        return "#212529";
       default:
-        return (labelColor = "");
+        return null;
     }
   };
 
@@ -59,15 +58,18 @@ class Item extends Component {
         [e.target.name]: e.target.value,
       },
       () => {
-        let { selectedProgress } = this.state;
-        let { changeProgress, item } = this.props;
-        changeProgress(selectedProgress, item.id);
+        this.props.changeStatus(this.props.item.id, this.state.selectedStatus);
       }
     );
   };
 
+  handleEditing = () => {
+    this.props.editTask(this.props.item);
+    this.props.covertToEditTask();
+  };
+
   render() {
-    let { index, item, editTask } = this.props;
+    let { index, item } = this.props;
 
     // Priority
     let elmPriority;
@@ -92,23 +94,20 @@ class Item extends Component {
         break;
     }
 
-    // Progress
-    let elmClassProgress;
-    switch (parseInt(item.status)) {
+    // Status
+    let elmStatus;
+    switch (parseInt(item.status, 10)) {
       case 1:
-        elmClassProgress = "fa fa-spinner";
+        elmStatus = <i className="fa fa-spinner" />;
         break;
       case 2:
-        elmClassProgress = "fa fa-stop";
+        elmStatus = <i className="fa fa-stop" />;
         break;
       case 3:
-        elmClassProgress = "fa fa-check-square-o";
-        break;
-      case 4:
-        elmClassProgress = "fa fa-trash-o";
+        elmStatus = <i className="fa fa-check-square-o" />;
         break;
       default:
-        elmClassProgress = "fa fa-stop";
+        elmStatus = <i className="fa fa-trash-o" />;
         break;
     }
 
@@ -129,7 +128,7 @@ class Item extends Component {
                 className="btn btn-outline-primary"
                 data-toggle="modal"
                 data-target="#modalTask"
-                onClick={() => editTask(item)}
+                onClick={this.handleEditing}
               >
                 Sửa
               </button>
@@ -145,10 +144,10 @@ class Item extends Component {
               <div className="form-group">
                 <select
                   className="form-control"
-                  id="exampleFormControlSelect1"
+                  name="selectedStatus"
                   onChange={this.onChange}
-                  name="selectedProgress"
                 >
+                  <option defaultValue>Chọn trạng thái</option>
                   <option value={1}>Đang tiến hành</option>
                   <option value={2}>Chưa bắt đầu</option>
                   <option value={3}>Hoàn thành</option>
@@ -158,9 +157,7 @@ class Item extends Component {
             </div>
           </div>
         </td>
-        <td className="text-center">
-          <i className={`${elmClassProgress} mr-2`} />
-        </td>
+        <td className="text-center">{elmStatus}</td>
       </tr>
     );
   }
@@ -168,10 +165,24 @@ class Item extends Component {
 
 const mapDisPatchToProps = (dispatch) => {
   return {
-    editTask: (taskEditing) => {
+    editTask: (item) => {
       const action = {
         type: "EDIT_TASK",
-        taskEditing,
+        item,
+      };
+      dispatch(action);
+    },
+    covertToEditTask: () => {
+      const action = {
+        type: "CONVERT_EDIT_TASK",
+      };
+      dispatch(action);
+    },
+    changeStatus: (id, status) => {
+      const action = {
+        type: "CHANGE_STATUS",
+        id,
+        status,
       };
       dispatch(action);
     },

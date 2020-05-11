@@ -8,13 +8,6 @@ import Sort from "./Controls/Sort";
 
 export default class Controls extends Component {
   render() {
-    let {
-      gennerateData,
-      clearBeforeAddNewTask,
-      changeFillterProgress,
-      changeSortType,
-    } = this.props;
-
     return (
       <div className="col-md-3 text-center px-0">
         <div className="header header--left d-flex align-items-center">
@@ -23,13 +16,13 @@ export default class Controls extends Component {
             Đỗ Thành Nhân
           </h3>
         </div>
-        <AddNewTask clearBeforeAddNewTask={clearBeforeAddNewTask} />
-        <InitializeTask gennerateData={gennerateData} />
+        <AddNewTask />
+        <InitializeTask />
         <div className="px-3">
-          <FilterProgress changeFillterProgress={changeFillterProgress} />
+          <FilterProgress />
           <FilterLabel />
           <FilterPriority />
-          <Sort changeSortType={changeSortType} />
+          <Sort />
         </div>
       </div>
     );

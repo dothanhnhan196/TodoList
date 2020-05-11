@@ -5,87 +5,14 @@ import Search from "./TaskItems/Search";
 import { connect } from "react-redux";
 
 class TaskItems extends Component {
-  render() {
-    let {
-      editTask,
-      isAddNewTask,
-      taskEditing,
-      changeProgress,
-      task,
-      fillterType,
-      fillterProgress,
-      changeFillerSearch,
-      fillterSearch,
-      sortType,
-      deleteTask,
-    } = this.props;
-
-    let fillterTask = [];
-    switch (fillterType) {
-      case "fillterProgress":
-        if (fillterProgress === -1) {
-          fillterTask = task;
-        } else {
-          for (let elmtask of task) {
-            if (parseInt(elmtask.status, 10) === fillterProgress) {
-              fillterTask = [...fillterTask, elmtask];
-            }
-          }
-        }
-        break;
-      case "fillterSearch":
-        fillterTask = task.filter((task) => {
-          return (
-            task.name.toLowerCase().indexOf(fillterSearch.toLowerCase()) !== -1
-          );
-        });
-        break;
-
-      case "sort":
-        fillterTask = task;
-        if (sortType === "asc") {
-          fillterTask.sort((a, b) => {
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) return -1;
-            if (x > y) return 1;
-            return 0;
-          });
-        }
-
-        if (sortType === "desc") {
-          fillterTask.sort((a, b) => {
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x > y) return -1;
-            if (x < y) return 1;
-            return 0;
-          });
-        }
-
-        break;
-
-      default:
-        fillterTask = task;
-        break;
-    }
-
-    let elmItem = fillterTask.map((item, index) => {
-      return (
-        <Item
-          key={index}
-          item={item}
-          index={index}
-          editTask={editTask}
-          isAddNewTask={isAddNewTask}
-          taskEditing={taskEditing}
-          changeProgress={changeProgress}
-          deleteTask={deleteTask}
-          task={task}
-        />
-      );
+  renderTask = () => {
+    let { task } = this.props;
+    return task.map((item, index) => {
+      return <Item key={index} item={item} index={index} />;
     });
+  };
 
+  render() {
     return (
       <div className="col-md-9 px-0">
         <div className="container-fluid px-0">
@@ -96,7 +23,7 @@ class TaskItems extends Component {
               </div>
             </div>
             <div className="col-md-6">
-              <Search changeFillerSearch={changeFillerSearch} />
+              <Search />
             </div>
           </div>
         </div>
@@ -105,7 +32,7 @@ class TaskItems extends Component {
             <thead>
               <Thead />
             </thead>
-            <tbody>{elmItem}</tbody>
+            <tbody>{this.renderTask()}</tbody>
           </table>
         </div>
       </div>

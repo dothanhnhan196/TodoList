@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 class Modal extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       id: "",
       name: "",
@@ -23,11 +22,12 @@ class Modal extends Component {
     });
   };
 
-  onSubmit = (e) => {
-    let { addNewTask, onEditTask } = this.props;
-    e.preventDefault();
-    addNewTask(this.state);
-    onEditTask(this.state);
+  onSubmit = () => {
+    if (this.props.isAddNewTask) {
+      this.props.addTask(this.state);
+    } else {
+      this.props.updateTask(this.state);
+    }
   };
 
   memberChange = (newMember) => {
@@ -39,18 +39,6 @@ class Modal extends Component {
   labelChange = (newLabel) => {
     this.setState({
       labelArr: newLabel,
-    });
-  };
-
-  clearForm = () => {
-    this.setState({
-      id: "",
-      name: "",
-      description: "",
-      priority: 1,
-      memberIDArr: "",
-      labelArr: "",
-      status: 1,
     });
   };
 
@@ -79,13 +67,14 @@ class Modal extends Component {
   };
 
   render() {
+    let { isAddNewTask } = this.props;
     return (
       <div className="modal fade" id="modalTask">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title">
-                {this.props.isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
+                {isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
               </h4>
               <button type="button" className="close" data-dismiss="modal">
                 ×
@@ -175,7 +164,7 @@ class Modal extends Component {
 
               <div className="modal-footer">
                 <button type="submit" className="btn btn-success">
-                  {this.props.isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
+                  {isAddNewTask ? "Thêm công việc" : "Sửa công việc"}
                 </button>
 
                 <button
@@ -196,14 +185,22 @@ class Modal extends Component {
 
 const mapStateToProps = (state) => ({
   taskEditing: state.TaskEditingReducer,
+  isAddNewTask: state.AddNewTaskReducer,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addNewTask: (newTask) => {
+    addTask: (newTask) => {
       const action = {
         type: "ADD_TASKS",
         newTask,
+      };
+      dispatch(action);
+    },
+    updateTask: (index) => {
+      const action = {
+        type: "UPDATE_TASK",
+        index,
       };
       dispatch(action);
     },

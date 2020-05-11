@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class AddNewTask extends Component {
+class AddNewTask extends Component {
   hanleAddNewTask = () => {
-    let { clearBeforeAddNewTask } = this.props;
-    clearBeforeAddNewTask();
+    this.props.convertToAddNewTask();
+    this.props.clearForm();
   };
 
   render() {
@@ -21,3 +22,20 @@ export default class AddNewTask extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  convertToAddNewTask: () => {
+    const action = {
+      type: "CONVERT_ADD_NEW_TASK",
+    };
+    dispatch(action);
+  },
+  clearForm: () => {
+    const action = {
+      type: "CLEAR_FORM",
+    };
+    dispatch(action);
+  },
+});
+
+export default connect(null, mapDispatchToProps)(AddNewTask);
